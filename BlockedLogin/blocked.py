@@ -7,7 +7,8 @@ import string
 import sys
 from base64 import b64decode, b64encode
 from Crypto.Cipher import AES
-from secret import FLAG
+# from secret import FLAG
+FLAG = "srdnlen{REDACTED}"
 
 TIMEOUT = 300
 BLOCK_SIZE = 16

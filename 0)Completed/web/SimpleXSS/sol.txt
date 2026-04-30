@@ -1,0 +1,1 @@
+srdnlen{a_very_simple_xss_to_start_with_client_side} 
