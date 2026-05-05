@@ -8,6 +8,8 @@ def search(lista, trovare):
 def all_pos(pos, t, change, original):
     for k in t:
         change[pos] = k
+        # print(" ".join(change))
+        print(md5((" ".join(change)).encode()).hexdigest()[:6])
         if md5(original.encode()).hexdigest()[:6] == md5((" ".join(change)).encode()).hexdigest()[:6]:
             return change
 
@@ -25,7 +27,8 @@ voto = [
 tempo = [
     "attuale", 
     "in corso", 
-    "corrente"]
+    "corrente"
+]
 
 determina = [
     "determinazione",
@@ -44,58 +47,92 @@ ha = [
 scarso = [
     "notevole",
     "grande",
-    "forte"
+    "forte",
+    "elevato",
+    "straordinario"
 ]
 
-studente = [
+studente = [""
     "studente;",
     "partecipante;"
-    "alunno;"
+    "alunno;",
+    "concorrente"
 ]
 
 persone = [
     "persone",
     "partecipanti",
     "concorrenti",
-    "sfidanti"
+    "sfidanti",
+    "candidati",
+    "iscritti",
+    "utenti", 
+    "soggetti"
 ]
 
 voto1 = [
     "valutazione",
-    "Punteggio",
-    "Giudizio",
-
+    "punteggio",
+    "giudizio",
+    "esito",
+    "livello"
 ]
 
 accademico = [
     "accademico",
-    "scolastico"
+    "scolastico",
+    "universitario",
+    "didattico",
+    "formativo"
+]
+
+assenze = [""
+    "assenze",
+    "presenze", 
+    "partecipazione"
 ]
 
 change[search(change, "scarso")] = "grande"
 change[search(change, "7/30.")] = "30L/30."
 print(change)
-print(search(change, "persone"))
+TMP = change
+# print(change)
+# print(search(change, "persone"))
 win = all_pos(-1, voto, change, original)
-if win != None:
+if win == None:
+    # print("1")
+    # print(TMP)
     win = all_pos(48 , tempo, change, original)
-if win != None:
+if win == None:
+    change = TMP
     win = all_pos(1 , determina, change, original)
-if win != None:
+if win == None:
+    change = TMP
+    print(TMP)
+    print(change)
     win = all_pos(33 , ha, change, original)
-if win != None:
+if win == None:
+    change = TMP
     win = all_pos(21, scarso, change, original)
-if win != None:
+if win == None:
+    change = TMP
     win = all_pos(search(change, "studente;") , studente, change, original)
-if win != None:
+if win == None:
+    change = TMP
     win = all_pos(search(change, "persone") , persone, change, original)
-if win != None:
+if win == None:
+    change = TMP
     win = all_pos(search(change, "accademico") , accademico, change, original)
-if win != None:
-    win = all_pos(search(change, "valutazione") , voto1, change, original)
+if win == None:
+    change = TMP
+    win = all_pos(search(change, "voto") , voto1, change, original)
+if win == None:
+    change = TMP
+    win = all_pos(search(change, "assenze") , assenze, change, original)
 
 
-if win != None:
+if win == None:
+    change = TMP
     for a in voto:
         for b in tempo:
             for c in determina:
@@ -105,9 +142,10 @@ if win != None:
                             for g in persone:
                                 for h in voto1:
                                     for i in accademico:
-                                        change = f"Oggetto: {c} del {h} di CyberChallenge per lo studente Davide Maiorca, anno {i} 2021 2022. Il sottoscritto Giorgio Giacinto, VISTO lo {e} impegno nello studio di CyberChallenge; VISTO il numero di {g} che {d} risolto la challenge 3; VISTO il numero di assenze dello {f} DETERMINA che, nel {b} anno accademico, lo studente deve avere il voto {a}"
-                                        if md5(original.encode()).hexdigest()[:6] == md5((" ".join(change)).encode()).hexdigest()[:6]:
-                                            win = change
+                                        for l in assenze:
+                                            change = f"Oggetto: {c} del {h} di CyberChallenge per lo studente Davide Maiorca, anno {i} 2021 2022. Il sottoscritto Giorgio Giacinto, VISTO lo {e} impegno nello studio di CyberChallenge; VISTO il numero di {g} che {d} risolto la challenge 3; VISTO il numero di {l} dello {f} DETERMINA che, nel {b} anno accademico, lo studente deve avere il voto {a}"
+                                            if md5(original.encode()).hexdigest()[:6] == md5((" ".join(change)).encode()).hexdigest()[:6]:
+                                                win = change
 
 print(win)
 print(md5(original.encode()).hexdigest()[:6])
