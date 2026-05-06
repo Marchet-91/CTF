@@ -3,9 +3,9 @@
 from pwn import *
 
 context.terminal = ["tmux", "splitw", "-h"]
-exe = context.binary = ELF(args.EXE or './<binary>')
+exe = context.binary = ELF(args.EXE or './logapp1')
 
-host = args.HOST or '<host>.chall.srdnlen.it'
+host = args.HOST or 'logapp1.chall.srdnlen.it'
 port = int(args.PORT or 443)
 
 
@@ -31,13 +31,16 @@ def start(argv=[], *a, **kw):
         return start_remote(argv, *a, **kw)
 
 gdbscript = '''
-tbreak main
+br *0x4015fc
 continue
 '''.format(**locals())
 
 # -- Exploit goes here --
 
 io = start()
+
+io.sendlineafter(b"> ", b"2")
+io.sendlineafter(b": ", b"SuperStrongPassword")
 
 io.interactive()
 
