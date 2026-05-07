@@ -11,17 +11,20 @@ def pad(s): return s + (BLOCK_SIZE - len(s) %
 
 def unpad(s): return s[:-ord(s[len(s) - 1:])]
 
-name = ""
+name = "ciaoaaaaaaaaaaaaaaaa"
 assert(all(c in string.printable for c in name))
-surname = ""
+surname = "admin"
 assert(all(c in string.printable for c in surname))
-email = ""
+email = 'abo'
 assert(all(c in string.printable for c in email))
 
 data = '{"name": "%s", "surname": "%s", "email": "%s", "type": "user"}' % (name, surname, email)
 
 data = json.dumps(json.loads(data))
-print(pad(data))
+print(pad(data).encode())
+
+
+print("\n\n\n")
 
 block = []
 # print(data[0:0+16])
