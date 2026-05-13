@@ -1,12 +1,11 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 from pwn import *
-from ctypes import CDLL
 
 context.terminal = ["tmux", "splitw", "-h"]
 # context.log_level = 'error' # se non vuoi vedere i loggin
-exe = context.binary = ELF(args.EXE or './<binary>')
-lib = CDLL(exe.libc.path)
+exe = context.binary = ELF(args.EXE or './the_safe')
+
 host = args.HOST or '<host>.chall.srdnlen.it'
 port = int(args.PORT or 443)
 
@@ -40,6 +39,8 @@ continue
 # -- Exploit goes here --
 
 io = start()
+
+io.sendlineafter(b": ", b"you_cAnT_gue55_th1z_s3cur3_p@ssword")
 
 io.interactive()
 

@@ -4,7 +4,7 @@ from pwn import *
 
 context.terminal = ["tmux", "splitw", "-h"]
 # context.log_level = 'error' # se non vuoi vedere i loggin
-exe = context.binary = ELF(args.EXE or './<binary>')
+exe = context.binary = ELF(args.EXE or './acrostic')
 
 host = args.HOST or '<host>.chall.srdnlen.it'
 port = int(args.PORT or 443)

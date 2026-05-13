@@ -1,0 +1,5 @@
+execve:
+    rax: 59
+    rdi: command
+    rsi: 0
+    rdx: 0

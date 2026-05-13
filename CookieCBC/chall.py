@@ -2,6 +2,7 @@ import codecs
 from Crypto.Util.Padding import pad, unpad
 from Crypto.Cipher import AES
 from Crypto.Random import get_random_bytes
+from Crypto.Util.strxor import strxor # MIo
 
 
 key = None
@@ -32,6 +33,7 @@ def decrypt(ct):
 
     padded_pt = cipher.decrypt(byte_ct)
     try:
+        print(padded_pt)
         pt = unpad(padded_pt, AES.block_size)
         return pt
     except:

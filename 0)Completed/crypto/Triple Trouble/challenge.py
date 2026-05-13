@@ -20,6 +20,8 @@ menu = """What do you want to do?
 2. Encrypt flag
 0. Exit
 """
+# a = 1 ^ 2 ^ 3 ^ 4 ^ 5 ^ 6 ^ 7 ^ 8
+# 
 
 def xor(a, b):
     return bytes([a[i % len(a)] ^ b[i % len(b)] for i in range(max(len(a), len(b)))])
@@ -33,6 +35,12 @@ def encrypt_3des(text, key):
         return ct.hex()
     except Exception as e:
         return f"Something went wrong: {e}"
+    
+# otp
+# DES() X
+# pt X
+# key X
+# DES(key, pt ^ otp) ^ otp
 
 
 def handle():

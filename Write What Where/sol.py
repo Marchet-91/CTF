@@ -1,13 +1,14 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 from pwn import *
-from ctypes import CDLL
+# from ctypes import CDLL
 
 context.terminal = ["tmux", "splitw", "-h"]
 # context.log_level = 'error' # se non vuoi vedere i loggin
-exe = context.binary = ELF(args.EXE or './<binary>')
-lib = CDLL(exe.libc.path)
-host = args.HOST or '<host>.chall.srdnlen.it'
+exe = context.binary = ELF(args.EXE or './write_what_where')
+
+# lib = CDLL(exe.libc.path)
+host = args.HOST or 'www.chall.srdnlen.it'
 port = int(args.PORT or 443)
 
 
@@ -33,13 +34,16 @@ def start(argv=[], *a, **kw):
         return start_remote(argv, *a, **kw)
 
 gdbscript = '''
-tbreak main
+b *0x40183c
 continue
 '''.format(**locals())
 
 # -- Exploit goes here --
 
 io = start()
+
+execve = p64(0x403fa8)
+
 
 io.interactive()
 
