@@ -42,14 +42,24 @@ cookie_ch = pad(dump_user(user), AES.block_size)
 new = b""
 
 print(decrypt(codecs.encode(ct, "hex")))
+print(len(ct))
+print(len(cookie_ch))
 print(cookie_pt)
 print(cookie_ch)
-for i in range(16, len(cookie_pt), 1):
-    keystream = ct[i - 16] ^ cookie_pt[i]
-    # print(keystream.to_bytes())
-    new += (keystream ^ cookie_ch[i]).to_bytes()
 
-new += ct[-32:]
+ch = b"True\x02\x02"
+new = ct[:-6]
+j = 0
+for i in range(len(ct) - 6, len(ct)):
+    print(chr(cookie_pt[i - 16]), chr(ch[j]))
+    keystream = ct[i - 16] ^ cookie_pt[i - 16]
+    # print(keystream.to_bytes())
+    new += (keystream ^ ch[j]).to_bytes()
+    j += 1
+
+# print(chr(cookie_pt[-6]))
+# new += ct[-16]
+# new += ct[-32:]
 new = codecs.encode(new, "hex")
 print(new)
 print(decrypt(new))
