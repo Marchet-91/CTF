@@ -16,9 +16,14 @@ def encrypt(secret_key, note, n):
         note >>= 1
     return res
 
+# srd
 # 110110
 # 1101
-# 110110 0000001101
+# 110110 0000
+# 110110 1101          1
+# 110110 11
+# 110110 11 0000
+# 110110 1111 1011
 
 n = flag.bit_length()
 secret_key = random.getrandbits(2*n)

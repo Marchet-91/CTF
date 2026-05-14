@@ -11,27 +11,35 @@ def pad(s): return s + (BLOCK_SIZE - len(s) %
 
 def unpad(s): return s[:-ord(s[len(s) - 1:])]
 
-name = "ciaoaaaaaaaaaaaaaaaa"
+name = 'aAAA", "type": "admin", "x": "'
 assert(all(c in string.printable for c in name))
-surname = "admin"
+surname = 'b'
 assert(all(c in string.printable for c in surname))
-email = 'abo'
+email = 'C"}, {"Ciao'
 assert(all(c in string.printable for c in email))
 
 data = '{"name": "%s", "surname": "%s", "email": "%s", "type": "user"}' % (name, surname, email)
-
+print(data)
 data = json.dumps(json.loads(data))
+
+for i in range(0, len(data), 16):
+    print(data[i:i +16])
 print(pad(data).encode())
 
 
-print("\n\n\n")
+io = remote(HOST, PORT)
 
-block = []
-# print(data[0:0+16])
-for i in range(0,len(data),16):
-    block.append(data[i:i+16])
+io.sendlineafter(b"> ", b"1")
+io.sendlineafter(b"name: ", name.encode())
+io.sendlineafter(b"surname: ", surname.encode())
+io.sendlineafter(b"email: ", email.encode())
+io.recvline()
+token = io.recvline().strip()
 
-for i in block:
-    print(i)
+io.sendlineafter(b"> ", b"2")
+io.sendlineafter(b": ", token)
 
-# io.close()
+print(io.recvline())
+print(io.recvline())
+
+io.close()
