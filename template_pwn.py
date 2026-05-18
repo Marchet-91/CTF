@@ -10,6 +10,11 @@ lib = CDLL(exe.libc.path)
 host = args.HOST or '<host>.chall.srdnlen.it'
 port = int(args.PORT or 443)
 
+def unpack(txt):
+    return u64(txt.ljust(8, b'\x00'))
+
+def vers_libc(function):
+    return ELF(pwnlib.libcdb.search_by_symbol_offsets(function, select_index=10))
 
 def start_local(argv=[], *a, **kw):
     '''Execute the target binary locally'''
