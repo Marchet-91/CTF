@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>CapaFansub - Download a song</title>
+        <link rel="stylesheet" href="/css/bootstrap-dark.min.css">
+        <link rel="stylesheet" href="/css/style.css">
+    </head>
+    <% if(data !== '') {  %>
+    <body>
+        <h1 id="songText" class="center"><%= data %></h1>
+    <% } else { %>
+    <body id="bodyBackgrounded">
+        <main class="container" id="main">
+            <div id="centeredDiv">
+                <form>
+                    <h2>Download your favorite Caparezza song!</h2>
+                    <p>All you need to do is send me the link, and I will take care of everything!</p>
+                    <input name="song_url" type="url" placeholder="your favorite capa song" required>
+                    <input type="submit" value="Submit">
+                </form>
+            </div>
+        </main>
+    <% } %>
+    </body>
+</html>

