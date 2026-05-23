@@ -28,3 +28,7 @@ def ceaser(i, ct):
         else:
             pt += ct[j]
     return pt
+
+
+
+# conda activate venvCrypto
