@@ -18,6 +18,8 @@ sudo /home/rosi/Projects/CTF/pwninit --no-template --bin=<binario> --libc=<libre
 - find iv having ct or find key, having ct prev with plaintext:
     cat /home/rosi/Projects/CTF/0\)Completed/crypto/Redacted/sol.py
 
+- quando si fa lo xor tra le due immagini, il risultato sarà la differenza più o meno, quidi notterai le differenze tra i due
+
 # SYSCALL
 - execve:
     rax: 59
