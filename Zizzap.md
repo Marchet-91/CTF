@@ -20,6 +20,14 @@ sudo /home/rosi/Projects/CTF/pwninit --no-template --bin=<binario> --libc=<libre
 
 - quando si fa lo xor tra le due immagini, il risultato sarà la differenza più o meno, quidi notterai le differenze tra i due
 
+- quadratic residuo:
+        Quadratic Residue * Quadratic Residue = Quadratic Residue
+        Quadratic Residue * Quadratic Non-residue = Quadratic Non-residue
+        Quadratic Non-residue * Quadratic Non-residue = Quadratic Residue 
+
+- RSA vuln:
+    - small public modulus: fattorizzabile
+
 # SYSCALL
 - execve:
     rax: 59
