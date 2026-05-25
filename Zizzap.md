@@ -27,6 +27,7 @@ sudo /home/rosi/Projects/CTF/pwninit --no-template --bin=<binario> --libc=<libre
 
 - RSA vuln:
     - small public modulus: fattorizzabile
+    - when e is small, and ct, is smaller than n: iroot of ct^e
 
 # SYSCALL
 - execve:
