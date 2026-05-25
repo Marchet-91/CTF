@@ -4,6 +4,7 @@ from Crypto.Cipher import AES
 from Crypto.Util.Padding import pad
 from base64 import b64decode, b64encode
 from pwn import * 
+from string import printable
 
 k1 = os.urandom(32)
 nonce = os.urandom(8)
@@ -22,7 +23,9 @@ def sign(data):
 HOST = "ctrmac.challs.cyberchallenge.it"
 PORT = 37003
 
-print(sign(b"ciao"))
+my = sign(b"ciao")
+
+print(bin(2**128 - 1))
 
 # io = remote(HOST, PORT)
 
