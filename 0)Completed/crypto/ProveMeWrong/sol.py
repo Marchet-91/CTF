@@ -2,18 +2,20 @@ from operator import lshift
 from random import SystemRandom
 import math
 from Crypto.Util.number import getPrime, isPrime, long_to_bytes, bytes_to_long
+from time import time
 
 random = SystemRandom()
 nbits = 256
 srdnlen = b"we are srdnlen!"
 
-def decode(e, p, q, N, ct):
+def decode(e, p, q, N, ct, t):
     fi = (p-1)*(q-1)
     d = pow(e, -1, fi)
     pt = pow(ct, d, N)
     print(pt)
     print(long_to_bytes(pt))
     print(long_to_bytes(pt).decode())
+    print(time() - t)
 
 somma = 0
 
@@ -24,6 +26,7 @@ sample = [18, 32, ..., ..., 130, 138, 145, ..., 180, 183, 189, 205, 221, ..., ..
 
 
 print("FInish")
+start = time()
 for first in range(32, 131):
     for second in range(first, 131):
         for third in range(145,181):
@@ -45,10 +48,10 @@ for first in range(32, 131):
                             print("Discriminante:", x)
                             print(sample)
                             q = p + sum(map(lshift, srdnlen, sample))
-                            decode(e, p, q, n, flag_enc)
+                            decode(e, p, q, n, flag_enc, start)
                         p = (-(sum(map(lshift, srdnlen, sample))) - radice) // 2
                         if p > 0:
                             print("Discriminante:", x)
                             print(sample)
                             q = p + sum(map(lshift, srdnlen, sample))
-                            decode(e, p, q, n, flag_enc)
+                            decode(e, p, q, n, flag_enc, start)

@@ -32,6 +32,8 @@ sudo /home/rosi/Projects/CTF/pwninit --no-template --bin=<binario> --libc=<libre
     - small public modulus: fattorizzabile
     - when e is small, and ct, is smaller than n: iroot of ct^e
 
+- Controllare la funzione che si usa per generare i numeri
+
 # SYSCALL
 - execve:
     rax: 59
