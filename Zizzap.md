@@ -31,6 +31,18 @@ sudo /home/rosi/Projects/CTF/pwninit --no-template --bin=<binario> --libc=<libre
 - RSA vuln:
     - small public modulus: fattorizzabile
     - when e is small, and ct, is smaller than n: iroot of ct^e
+    - common modulo: quando abbiamo moduli uguali ma espontenti diversi, possiamo ricavare n con gcd
+    - avere common modulo: possiamo cifrare 2 e 4, e quindi alla fine risultera che le due cifrazionia avranno e diverso ma n uguale;
+
+- ricavare la e:
+    - provare e comuni
+    - usare il teorema di eulero: 
+
+- RSA Properties:
+    - encrypt(a * b) = encrypt(a) * encrypt(b)
+    - decrypted(flag * b) = flag * b (mod n):
+        - flag = (decrypted(flag * b) / b)      flag * r >= n
+        - flag =  m // b                        flag * r < n
 
 - Controllare la funzione che si usa per generare i numeri
 

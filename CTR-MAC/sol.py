@@ -1,35 +1,28 @@
-import os
-import signal
-from Crypto.Cipher import AES
-from Crypto.Util.Padding import pad
-from base64 import b64decode, b64encode
-from pwn import * 
-from string import printable
+import sys, base64
+from pwn import remote
 
-k1 = os.urandom(32)
-nonce = os.urandom(8)
+host, port = "ctrmac.challs.cyberchallenge.it", 37003
+admin = b'default_server_admin'
 
-def compress(l):
-    l = [l[i:i+16] for i in range(0,len(l),16)]
-    l = [int.from_bytes(l_, 'big') for l_ in l]
-    return (sum(l) & (2**128 - 1)).to_bytes(16, 'big')
+forged = bytearray(admin)
+forged[0]  ^= 0x80          # flip top bit of block 0
+forged[16] ^= 0x80          # flip top bit of block 1
+forged = bytes(forged)
 
-def sign(data):
-    cipher = AES.new(k1, AES.MODE_CTR, nonce=nonce)
-    enc_data = cipher.encrypt(pad(data, 16))
-    compressed = compress(enc_data)
-    return compressed
+io = remote(host, port)
 
-HOST = "ctrmac.challs.cyberchallenge.it"
-PORT = 37003
+# 1) register the colliding username -> get a token
+io.sendlineafter(b'> ', b'1')
+# print(io.recvline())
+io.sendlineafter(b'base64):', base64.b64encode(forged))
+io.recvuntil(b'token: ')
+token = io.recvline().strip().decode()
 
-my = sign(b"ciao")
+# 2) login AS admin using that same token
+io.sendlineafter(b'> ', b'2')
+io.sendlineafter(b'base64): ', base64.b64encode(admin))
+io.sendlineafter(b'Token: ', token.encode())
 
-print(bin(2**128 - 1))
-
-# io = remote(HOST, PORT)
-
-
-# io.sendlineafter(b"")
-
-# io.close()
+io.recvall(timeout=5)  # flag printed after admin login
+print(io.recvall(timeout=2).decode(errors='replace'))
+io.close()
