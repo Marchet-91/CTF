@@ -1,0 +1,147 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>5 day streak</title>
+
+		<style>
+			html {
+				height: 100%;
+			}
+
+			body {
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				height: 100%;
+				background: #101010;
+			}
+
+			body > div {
+				background-color: rgb(64, 58, 121);
+				border-radius: 20px;
+				padding: 2em;
+				display: flex;
+				flex-direction: column;
+				gap: 2em;
+				align-items: center;
+			}
+
+			body > div > div:first-child {
+				display: flex;
+				gap: 3em;
+			}
+
+			body > div > div:last-child {
+				text-align: center;
+				font-size: 1.75em;
+				font-family: sans-serif;
+				font-weight: bold;
+				color: rgb(250, 134, 39);
+			}
+
+			svg {
+				width: 3em;
+			}
+
+			div:has(> svg) {
+				color: #00000050;
+			}
+
+			div:has(> svg):not(:last-of-type) {
+				position: relative;
+			}
+
+			div:has(> svg):not(:last-of-type)::after {
+				content: '';
+				position: absolute;
+				top: 50%;
+				right: 0;
+				width: 3em;
+				height: 8px;
+				transform: translate(100%, -50%);
+				background: #00000050;
+				border-radius: 9999px;
+			}
+
+			div.streak:has(> svg) {
+				color: rgb(250, 134, 39);
+			}
+
+			div.streak:has(+ div.streak)::after {
+				background: rgb(250, 134, 39);
+			}
+		</style>
+	</head>
+	<body>
+		<div>
+			<div>
+				<div>
+					<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-6">
+						<path
+							fill-rule="evenodd"
+							d="M12.963 2.286a.75.75 0 0 0-1.071-.136 9.742 9.742 0 0 0-3.539 6.176 7.547 7.547 0 0 1-1.705-1.715.75.75 0 0 0-1.152-.082A9 9 0 1 0 15.68 4.534a7.46 7.46 0 0 1-2.717-2.248ZM15.75 14.25a3.75 3.75 0 1 1-7.313-1.172c.628.465 1.35.81 2.133 1a5.99 5.99 0 0 1 1.925-3.546 3.75 3.75 0 0 1 3.255 3.718Z"
+							clip-rule="evenodd" />
+					</svg>
+				</div>
+
+				<div>
+					<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-6">
+						<path
+							fill-rule="evenodd"
+							d="M12.963 2.286a.75.75 0 0 0-1.071-.136 9.742 9.742 0 0 0-3.539 6.176 7.547 7.547 0 0 1-1.705-1.715.75.75 0 0 0-1.152-.082A9 9 0 1 0 15.68 4.534a7.46 7.46 0 0 1-2.717-2.248ZM15.75 14.25a3.75 3.75 0 1 1-7.313-1.172c.628.465 1.35.81 2.133 1a5.99 5.99 0 0 1 1.925-3.546 3.75 3.75 0 0 1 3.255 3.718Z"
+							clip-rule="evenodd" />
+					</svg>
+				</div>
+
+				<div>
+					<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-6">
+						<path
+							fill-rule="evenodd"
+							d="M12.963 2.286a.75.75 0 0 0-1.071-.136 9.742 9.742 0 0 0-3.539 6.176 7.547 7.547 0 0 1-1.705-1.715.75.75 0 0 0-1.152-.082A9 9 0 1 0 15.68 4.534a7.46 7.46 0 0 1-2.717-2.248ZM15.75 14.25a3.75 3.75 0 1 1-7.313-1.172c.628.465 1.35.81 2.133 1a5.99 5.99 0 0 1 1.925-3.546 3.75 3.75 0 0 1 3.255 3.718Z"
+							clip-rule="evenodd" />
+					</svg>
+				</div>
+
+				<div>
+					<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-6">
+						<path
+							fill-rule="evenodd"
+							d="M12.963 2.286a.75.75 0 0 0-1.071-.136 9.742 9.742 0 0 0-3.539 6.176 7.547 7.547 0 0 1-1.705-1.715.75.75 0 0 0-1.152-.082A9 9 0 1 0 15.68 4.534a7.46 7.46 0 0 1-2.717-2.248ZM15.75 14.25a3.75 3.75 0 1 1-7.313-1.172c.628.465 1.35.81 2.133 1a5.99 5.99 0 0 1 1.925-3.546 3.75 3.75 0 0 1 3.255 3.718Z"
+							clip-rule="evenodd" />
+					</svg>
+				</div>
+
+				<div>
+					<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-6">
+						<path
+							fill-rule="evenodd"
+							d="M3 2.25a.75.75 0 0 1 .75.75v.54l1.838-.46a9.75 9.75 0 0 1 6.725.738l.108.054A8.25 8.25 0 0 0 18 4.524l3.11-.732a.75.75 0 0 1 .917.81 47.784 47.784 0 0 0 .005 10.337.75.75 0 0 1-.574.812l-3.114.733a9.75 9.75 0 0 1-6.594-.77l-.108-.054a8.25 8.25 0 0 0-5.69-.625l-2.202.55V21a.75.75 0 0 1-1.5 0V3A.75.75 0 0 1 3 2.25Z"
+							clip-rule="evenodd" />
+					</svg>
+				</div>
+			</div>
+			<div id="message"></div>
+		</div>
+
+		<script>
+			document.body.onload = async () => {
+				const res = await fetch('/', {
+					method: 'POST',
+					headers: {
+						'Content-Type': 'application/x-www-form-urlencoded'
+					},
+					body: 'timestamp=' + new Date().getTime()
+				});
+				const data = await res.json();
+				message.innerText = data.message;
+				document.querySelectorAll('div:has(> svg)').forEach((d, idx) => {
+					if (idx < data.streak) {
+						d.classList.add('streak');
+					}
+				});
+			};
+		</script>
+	</body>
+</html>

@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en" class="min-h-screen">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>thomass</title>
+		<link href="/output.css" rel="stylesheet" />
+	</head>
+	<body class="min-h-screen flex flex-col">
+		<%- include('navbar') %>
+		<main class="grow py-10">
+			<div class="hidden md:block overflow-x-clip">
+				<div class="grid grid-cols-3 gap-4 w-[120%] mx-[-10%]">
+					<div
+						class="rounded-xl shadow-lg bg-cover bg-center bg-[url('/card1.jpg')] w-full aspect-2.5/1"></div>
+					<div
+						class="rounded-xl shadow-lg bg-cover bg-center bg-[url('/card2.jpg')] w-full aspect-2.5/1"></div>
+					<div class="rounded-xl shadow-lg bg-cover bg-center bg-[url('/card3.jpg')] w-full aspect-2.5/1"></div>
+				</div>
+			</div>
+
+			<div class="md:mt-10 text-center px-4">
+				<h1
+					class="text-4xl font-bold bg-[linear-gradient(var(--color-sky-600),var(--color-sky-600))] bg-size-[100%_6px] bg-bottom mx-auto inline-block bg-no-repeat">
+					Product Highlights
+				</h1>
+
+				<div class="mt-6 grid grid-cols-5 gap-6 w-full max-w-7xl mx-auto">
+					<% products.forEach((product) => { %>
+					<a href="/product/<%= product.id %>" class="text-left cursor-pointer group">
+						<div class="bg-neutral-100 w-full aspect-square overflow-clip">
+							<img src="<%= product.image %>" class="hover:scale-[1.05] transition-transform aspect-square object-contain" />
+						</div>
+						<div class="text-lg mt-2 group-hover:text-sky-700"><%= product.name %></div>
+						<div class="font-bold text-3xl">&euro; <%= product.price %></div>
+					</a>
+					<% }); %>
+
+					<a
+						href="/list"
+						class="text-left cursor-pointer group flex flex-col aspect-square items-center justify-center hover:text-sky-700">
+						<svg
+							xmlns="http://www.w3.org/2000/svg"
+							fill="none"
+							viewBox="0 0 24 24"
+							stroke-width="1.5"
+							stroke="currentColor"
+							class="size-14">
+							<path
+								stroke-linecap="round"
+								stroke-linejoin="round"
+								d="m12.75 15 3-3m0 0-3-3m3 3h-7.5M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+						</svg>
+						<div class="mt-2 text-lg">View all</div>
+					</a>
+				</div>
+			</div>
+		</main>
+
+		<footer class="bg-black text-white px-4">
+			<div class="w-full mx-auto max-w-7xl py-8 opacity-85 text-sm">please don't sue me <3</div>
+		</footer>
+	</body>
+</html>

@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>thomass</title>
+		<link href="/output.css" rel="stylesheet" />
+	</head>
+	<body class="min-h-screen flex flex-col">
+		<%- include('navbar') %>
+		<main class="grow py-10 px-4">
+			<div class="mx-auto max-w-7xl w-full grid grid-cols-[60%_1fr] gap-6">
+				<div>
+					<h1 class="text-6xl font-bold mb-10">Your cart</h1>
+
+					<% Object.entries(cart).forEach(([id, product]) => { %>
+						<div class="text-left cursor-pointer group border-t border-t-neutral-300 flex gap-4">
+							<div class="h-26 overflow-clip">
+								<img src="/metal-pipe.png" class="h-full w-auto transition-transform" />
+							</div>
+							<div class="py-4">
+								<div class="text-xl group-hover:text-sky-700"><%= product.name %></div>
+								<div class="mt-2"><%= product.description %></div>
+							</div>
+							<div class="ml-auto flex flex-col justify-between items-end">
+								<select class="bg-neutral-200 rounded-full px-4 py-1 mt-3">
+									<% Array(10).fill(1).forEach((_, idx) => { %>
+										<option value="<%= idx + 1 %>" <% if(idx + 1 === product.amount) { %>selected<% } %>><%= idx + 1 %></option>
+									<% }) %>
+								</select>
+								<div class="ml-auto pr-4 py-4 font-bold text-xl">&euro; <%= product.price %></div>
+							</div>
+						</div>
+					<% }) %>
+				</div>
+				<div>
+					<form method="POST" action="/checkout"
+						class="bg-neutral-100 rounded-lg px-4 py-8 text-center flex flex-col gap-4 items-center justify-center">
+						<div class="text-3xl font-bold">Total &euro; <%= Object.values(cart).reduce((prev, p) => prev + p.amount * p.price, 0) %></div>
+
+						<div>
+							<input
+								name="coupon"
+								type="text"
+								class="border border-neutral-400 rounded-full px-6 py-2 bg-white mt-4"
+								placeholder="Coupon code" />
+						</div>
+
+						<button
+							class="cursor-pointer bg-black font-bold text-white uppercase rounded-full px-8 py-2 inline-flex items-center gap-2 mb-4">
+							Checkout
+							<svg
+								xmlns="http://www.w3.org/2000/svg"
+								fill="none"
+								viewBox="0 0 24 24"
+								stroke-width="1.5"
+								stroke="currentColor"
+								class="size-6">
+								<path
+									stroke-linecap="round"
+									stroke-linejoin="round"
+									d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3" />
+							</svg>
+						</button>
+					</form>
+				</div>
+			</div>
+		</main>
+	</body>
+</html>

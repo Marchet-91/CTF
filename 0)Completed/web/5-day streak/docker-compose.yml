@@ -1,0 +1,8 @@
+services:
+    5day_streak:
+        build: .
+        restart: unless-stopped
+        environment:
+            FLAG: CCIT{REDACTED}
+        ports:
+            - '3000:3000'
