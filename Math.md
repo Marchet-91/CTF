@@ -11,8 +11,6 @@
 - crt(moduli, resti) = x: valore comune
                        m: modulo totale
 
-
-
 # MATH
 - pow(a, (p - 1) // 2, p) = 1: a ha una radice quadrata
                           = p-1: a non ha una radice quadrata
