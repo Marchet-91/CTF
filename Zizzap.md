@@ -12,6 +12,9 @@
 - Trasformare una stringa binaria in caratteri ascii:
     flag = ''.join(chr(int(flag[i:i+8], 2)) for i in range(0, len(flag), 8))
 
+- Trasformare bytes in un int:
+    int.from_bytes(txt, byteorder='big')
+
 # WEB
 - ${IFS}: per mettere lo spazio senza metterlo in terminale
     wget${IFS}--post-file${IFS}<file>${IFS}<site>
