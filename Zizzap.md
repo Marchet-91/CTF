@@ -19,6 +19,8 @@
 - ${IFS}: per mettere lo spazio senza metterlo in terminale
     wget${IFS}--post-file${IFS}<file>${IFS}<site>
 
+- Quando fai sql injection, ricordati che quando fai gli unione le colonne devono avere lo stesso tipo
+
 # PWN
 ## pwninit:
 sudo /home/rosi/Projects/CTF/pwninit --no-template --bin=<binario> --libc=<libreria> --ld=<loader>

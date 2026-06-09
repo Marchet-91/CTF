@@ -46,7 +46,7 @@ continue
 
 io = start()
 
-payload = b"w3tpass"
+payload = b"\x00"*7
 io.sendline(payload)
 
 io.interactive()
