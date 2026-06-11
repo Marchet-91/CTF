@@ -21,6 +21,9 @@
 
 - Quando fai sql injection, ricordati che quando fai gli unione le colonne devono avere lo stesso tipo
 
+- from urllib.parse import quote, unquote:
+    trasforma le richieste come le legge le pagine web
+
 # PWN
 ## pwninit:
 sudo /home/rosi/Projects/CTF/pwninit --no-template --bin=<binario> --libc=<libreria> --ld=<loader>
