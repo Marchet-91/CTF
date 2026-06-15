@@ -14,6 +14,8 @@
 
 - Trasformare bytes in un int:
     int.from_bytes(txt, byteorder='big')
+## sympy
+- iroot: radice con indice a scelta
 
 # WEB
 - ${IFS}: per mettere lo spazio senza metterlo in terminale
@@ -56,6 +58,9 @@ sudo /home/rosi/Projects/CTF/pwninit --no-template --bin=<binario> --libc=<libre
         - flag =  m // b                        flag * r < n
 
 - Controllare la funzione che si usa per generare i numeri
+
+## Checklist
+- controllare sempre e il numero ha fattori primi
 
 # SYSCALL
 - execve:
