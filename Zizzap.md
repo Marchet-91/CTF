@@ -70,3 +70,13 @@ sudo /home/rosi/Projects/CTF/pwninit --no-template --bin=<binario> --libc=<libre
     rdi: command
     rsi: 0
     rdx: 0
+
+# LINUX COMMAND
+- base64 -d <>:
+    decode base64
+
+- rev <>:
+    reverse the order
+
+- tr "<1>" "<2>":
+    switch the 1 caracter with the 2
