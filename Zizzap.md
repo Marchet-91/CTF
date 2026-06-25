@@ -49,6 +49,7 @@ sudo /home/rosi/Projects/CTF/pwninit --no-template --bin=<binario> --libc=<libre
     - common modulo: quando abbiamo moduli uguali ma espontenti diversi, possiamo ricavare n con gcd dalla ct
     - avere common modulo: possiamo cifrare 2 e 4, e quindi alla fine risultera che le due cifrazionia avranno e diverso ma n uguale;
     - Wieners attack:  quando la chaive privata(d) è piccola
+    - Franklin-Reiter Related Message Attack: ct diversi con stesso modulo e potenza(/home/rosi/Projects/CTF/0)CyLabCompleted/crypto/Related Messages)
 
 - ricavare la e:
     - provare e comuni
