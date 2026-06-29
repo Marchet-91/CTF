@@ -16,6 +16,8 @@
 ## sympy
 
 - iroot: radice con indice a scelta
+- ntheory.factor_ import factorint:  trova dei fattori e puoi dare un limite per usare l'algoritmo più veloce
+- ntheory import discret_log: se l'esponente non è troppo grande lo può trovare
 
 # WEB
 
@@ -49,12 +51,12 @@ sudo /home/rosi/Projects/CTF/pwninit --no-template --bin=<binario></binario> --l
   - Wieners attack:  quando la chaive privata(d) è piccola
   - Franklin-Reiter Related Message Attack: ct diversi con stesso modulo e potenza(/home/rosi/Projects/CTF/0)CyLabCompleted/crypto/Related Messages)
   - Hastad's Broadcast Attack: più moduli stesso messaggio e stessa chiave publica
-
 - ricavare la e:
+
   - provare e comuni
   - usare il teorema di eulero:
-
 - RSA Properties:
+
   - encrypt(a * b) = encrypt(a) * encrypt(b)
   - decrypted(flag * b) = flag * b (mod n):
     - flag = (decrypted(flag * b) / b)      flag * r >= n
@@ -81,3 +83,4 @@ sudo /home/rosi/Projects/CTF/pwninit --no-template --bin=<binario></binario> --l
   reverse the order
 - tr "<1>" "<2>":
   switch the 1 caracter with the 2
+
