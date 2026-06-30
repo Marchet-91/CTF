@@ -3,7 +3,15 @@
 from pwn import *
 from ctypes import CDLL
 
-context.terminal = ["tmux", "splitw", "-h"]
+context.terminal = [
+    "kitty",
+    "@",
+    "launch",
+    "--location=hsplit",
+    # "--location=vsplit",
+    "--wait-for-child-to-exit"
+]
+
 # context.log_level = 'error' # se non vuoi vedere i loggin
 exe = context.binary = ELF(args.EXE or './<binary>')
 lib = CDLL(exe.libc.path)
