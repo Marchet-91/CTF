@@ -23,8 +23,8 @@
 - Se quello sopra è vero allora per calcolare la radice quadrata fai and p = 3 (mod 4):
   pow(a, (p + 1) // 4, p)
 - a^p = p (mod p) && gcd(a, p) = 1 allora a^(p - 1) = 1 (mod p)
+- Teorema di Wilson: (**p**−**1**)! ≡ 1 (mod P)
 
 ### Probabilitstica
 
 - quando due eventi sono legati bisogna usare moltiplicazione, mentre quando sono slegati bisogna usare addizione
-
