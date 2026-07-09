@@ -17,7 +17,7 @@
 
 - iroot: radice con indice a scelta
 - ntheory.factor_ import factorint:  trova dei fattori e puoi dare un limite per usare l'algoritmo più veloce
-- ntheory import discret_log: se l'esponente non è troppo grande lo può trovare
+- sympy.ntheory import discret_log: se l'esponente non è troppo grande lo può trovare
 
 # WEB
 
@@ -83,4 +83,3 @@ sudo /home/rosi/Projects/CTF/pwninit --no-template --bin=<binario></binario> --l
   reverse the order
 - tr "<1>" "<2>":
   switch the 1 caracter with the 2
-

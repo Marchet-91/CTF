@@ -18,20 +18,36 @@ def encrypt(msg):
     global KEY
     cipher = AES.new(KEY, AES.MODE_ECB)
 
+    # A B C D E F
     pad_msg = pad(msg, 16)
     nonce = os.urandom(16)
     blocks0 = [nonce] + [pad_msg[i:i + 16] for i in range(0, len(pad_msg), 16)]
+    # I 1 2 3 4 5 6
 
     blocks1 = [nonce]
     for i in range(len(blocks0) - 1):
         tmp = cipher.encrypt(blocks0[i + 1])
         blocks1 += [bytes(x ^ y for x, y in zip(tmp, blocks0[i]))]
+    # I
+    # e(1) ^ I
+    # e(2) ^ A
+    # e(3) ^ B
+    # e(4) ^ C
+    # e(5) ^ D
+    # e(6) ^ E
 
     blocks2 = [nonce]
-    for i in range(len(blocks1) - 1):
+    for i in range(len(blocks1) - 1): # 5 - 7-1
         tmp = cipher.decrypt(blocks1[-(i + 1)])
         blocks2 += [bytes(x ^ y for x, y in zip(tmp, blocks1[-i]))]
+    # d(e(F) ^ E) ^ I
+    # d(e(E) ^ D) ^ (e(F) ^ E)
+    # d(e(D) ^ C) ^ (e(E) ^ D)
+    # d(e(C) ^ B) ^ (e(D) ^ C)
+    # d(e(B) ^ A) ^ (e(C) ^ B)
+    # d(e(A) ^ I) ^ (e(B) ^ A)
 
+    # I
     ct = blocks2[::-1]
     return b"".join(ct)
 
@@ -40,14 +56,22 @@ def decrypt(ct):
     global KEY
     cipher = AES.new(KEY, AES.MODE_ECB)
 
+    # A B C D E F G
     blocks2 = [ct[i:i + 16] for i in range(0, len(ct), 16)][::-1]
-    nonce = blocks2[0]
+    nonce = blocks2[0] # = A
 
     blocks1 = [nonce]
     for i in range(len(blocks2) - 1):
         tmp = bytes(x ^ y for x, y in zip(blocks1[i], blocks2[i + 1]))
         blocks1 += [cipher.encrypt(tmp)]
 
+    # A 
+    # e(A ^ B) 
+    # e(e(A ^ B) ^ C) 
+    # e(e(e(A ^ B) ^ C) ^ D) 
+    # e(e(e(e(A ^ B) ^ C) ^ D) ^ E)
+    # e(e(e(e(e(A ^ B) ^ C) ^ D) ^ E) ^ F)
+    # e(e(e(e(e(e(A ^ B) ^ C) ^ D) ^ E) ^ F) ^ G)
     blocks0 = [nonce]
     for i in range(len(blocks1) - 1):
         tmp = bytes(x ^ y for x, y in zip(blocks0[i], blocks1[-(i + 1)]))
